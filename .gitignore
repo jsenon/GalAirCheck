@@ -1,0 +1,7 @@
+pkg/
+bin/
+source-env
+src/github.com/
+src/gopkg.in/
+src/golang.org/
+src/bodyfull
