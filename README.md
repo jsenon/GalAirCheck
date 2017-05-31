@@ -31,10 +31,10 @@ Access through favorite web browser on http://YOURIP:YOURPORT ie http://127.0.0.
 
 ### ToDo
 
-- [] API
-- [] Web part to view details
-- [] API Doc
-- [] Build Docker App
+- [ ] API
+- [ ] Web part to view details
+- [ ] API Doc
+- [ ] Build Docker App
 - [x] Add API monitoring
 
 
