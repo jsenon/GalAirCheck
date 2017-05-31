@@ -17,7 +17,7 @@ git clone https://github.com/jsenon/GalAirCheck.git
 go build -o galaircheck
 ```
 
-### Start
+### Galera Node File Configuration
 
 Edit and rename config-node.json.example to config-node.json
 Replace value by your own
