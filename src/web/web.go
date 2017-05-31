@@ -16,6 +16,7 @@
 package web
 
 import (
+	"db"
 	"github.com/gorilla/mux"
 	"github.com/gorilla/schema"
 	"html/template"
@@ -27,7 +28,10 @@ import (
 // Func to display all server on table view
 func Index(res http.ResponseWriter, req *http.Request) {
 	// var rs Server
-	rs, err := db.GetAll()
+
+	// I have to loop on each cluster server
+
+	rs, err := db.GetInfo(server)
 	t, _ := template.ParseFiles("templates/index.html")
 
 	t.Execute(res, rs)
