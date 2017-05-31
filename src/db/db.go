@@ -17,8 +17,10 @@ package db
 
 import (
 	"database/sql"
+	"encoding/json"
 	"fmt"
 	_ "github.com/go-sql-driver/mysql"
+	"io/ioutil"
 	// "log"
 )
 
@@ -61,34 +63,35 @@ type DBConfig struct {
 var Servers []DBConfig
 var Node []GaleraServer
 
-// Init connection to Galera
-// func init() {
-// 	// sql.Open don't open connection
-// 	db, err := sql.Open("mysql", "maxscale:CIHblhmzv74eMYPjhUHO@tcp(fr0-ac-cmp-n01.cloud.airbus.corp:3306)/")
-// 	if err != nil {
-// 		fmt.Println("Failed to connect to database: %v", err)
-// 	}
-// 	err = db.Ping()
-// 	if err != nil {
-// 		panic(err.Error()) // proper error handling instead of panic in your app
-// 	}
-// 	var version string
-// 	// QueryRow will open connection
-// 	db.QueryRow("SELECT VERSION()").Scan(&version)
-// 	fmt.Println("Connected to:", version)
-// }
-
 func GetInfo() ([]GaleraServer, error) {
-	//Static Galera Node Server
-	Servers = []DBConfig{}
 
-	//Static Info for test Purpose
+	sheetData, err := ioutil.ReadFile("../config-node.json")
+	s := []DBConfig{}
+	err = json.Unmarshal(sheetData, &s)
+	if err != nil {
+		fmt.Println("Error: ", err)
+	}
+
+	// Reinit Servers slice
+	var Servers []DBConfig
+
+	// Loop on all node in config file json
+	for i := range s {
+		Servers = append(Servers, DBConfig{
+
+			Host:     s[i].Host,
+			Port:     s[i].Port,
+			User:     s[i].User,
+			Password: s[i].Password,
+		})
+	}
+
+	// Reinit Node Value
 	Node = []GaleraServer{}
 
 	//Retrieve info dynamically
 	for i := range Servers {
 		dsn := builddsn(Servers[i].Host, Servers[i].Port, Servers[i].User, Servers[i].Password, "")
-		fmt.Println(dsn)
 
 		db, err := sql.Open("mysql", dsn)
 		if err != nil {
