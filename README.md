@@ -45,8 +45,8 @@ Auto Health Check API status available at /healthy/am-i-up
 - [ ] API Doc
 - [ ] Build Docker App
 - [x] Add API monitoring
-- [ ] Add Cluster ID
-- [ ] Add Cluster Size
+- [x] Add Cluster ID
+- [x] Add Cluster Size
 
 
 

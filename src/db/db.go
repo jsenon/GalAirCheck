@@ -51,6 +51,10 @@ type GaleraServer struct {
 	ControlPaused string `json:"ControlPaused"`
 	// Send Queue Average
 	SendAvgQueue string `json:"SendAvgQueue"`
+	// Cluster ID
+	ClusterID string `json:"ClusterID"`
+	// Cluster Size
+	ClusterSize string `json:"ClusterSize"`
 }
 
 type DBConfig struct {
@@ -126,6 +130,12 @@ func GetInfo() ([]GaleraServer, error) {
 		var controlpaused string
 		db.QueryRow("SHOW STATUS LIKE 'wsrep_flow_control_paused'").Scan(&unused, &controlpaused)
 
+		var clusterid string
+		db.QueryRow("SHOW GLOBAL STATUS LIKE 'wsrep_cluster_conf_id'").Scan(&unused, &clusterid)
+
+		var clustersize string
+		db.QueryRow("SHOW GLOBAL STATUS LIKE 'wsrep_cluster_size'").Scan(&unused, &clustersize)
+
 		Node = append(Node, GaleraServer{
 			NodeName:       Servers[i].Host,
 			WsrepStatus:    wsrep,
@@ -135,6 +145,8 @@ func GetInfo() ([]GaleraServer, error) {
 			AvgQueue:       avgqueue,
 			ControlPaused:  controlpaused,
 			SendAvgQueue:   sendavgqueue,
+			ClusterID:      clusterid,
+			ClusterSize:    clustersize,
 		})
 
 	}

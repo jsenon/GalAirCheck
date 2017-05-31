@@ -68,13 +68,15 @@
 				<tr>
 					<th> NodeName </th>
 					<th> WSREP </th>
-					<th> WSREConnected </th>
+					<th> WSRECon</th>
 					<th> Dist </th>
 					<th> Status </th>
 					<th> Avg </th>
 					<th> Latency </th>
-					<th> Control Paused </th>
-					<th> Send Queue Average
+					<th> Control Pause </th>
+					<th> Send Q Average </th>
+					<th> Cluster ID </th>
+					<th> Cluster Size </th>
 				</tr>
 				<tr>
 					{{range .}}
@@ -87,6 +89,8 @@
 					<th> {{.Latency}} </th>
 					<th> {{.ControlPaused}} </th>
 					<th> {{.SendAvgQueue}} </th>
+					<th> {{.ClusterID}}</th>
+					<th> {{.ClusterSize}}</th>
 				</tr>
 				{{end}}
  				</table>
