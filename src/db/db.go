@@ -16,46 +16,63 @@
 package db
 
 import (
-	// "fmt"
-	"github.com/go-sql-driver/mysql"
-	"gopkg.in/mgo.v2"
-	"gopkg.in/mgo.v2/bson"
+	"fmt"
+	// "github.com/go-sql-driver/mysql"
+	// "log"
 )
 
 // Server represents the asset for this application
 //
 // A Server have multiple information to be stored.
 //
-// swagger:model server
-type Server struct {
-	// ID Server Generated
-	ID bson.ObjectId `json:"id" bson:"_id,omitempty"`
+// swagger:model GaleraServer
+type GaleraServer struct {
+	// // ID Server Generated
+	// ID string `json:"ID"`
+
 	// Server Name
 	NodeName string `json:"NodeName"`
 	// Server WSREP
 	WsrepStatus string `json:"WsrepStatus"`
 	// Server Dist
-	Dist string `json:"Dist"`
+	Dist float64 `json:"Dist"`
 	// Server Status
 	Status string `json:"Status"`
 	// Server Avg Message Queue
-	AvgQueue string `json:"AvgQueue"`
+	AvgQueue float64 `json:"AvgQueue"`
 	// Server Latency
-	Latency string `json:"Latency"`
+	Latency float64 `json:"Latency"`
+}
+
+type DBConfig struct {
+	Host     string
+	User     string
+	Port     int
+	Password string
 }
 
 // Init connection to MongoDB
 func init() {
 
-	session, err := mgo.Dial("localhost")
-
-	if err != nil {
-		log.Fatalf("Failed to connect to database: %v", err)
-	}
-
-	db = session.DB("cloudtab")
 }
 
-func GetAll(server string) ([]Server, error) {
+func GetInfo() (GaleraServer, error) {
+	Server := DBConfig{
+		Host:     "fr0-ac-cmp-n01.cloud.airbus.corp",
+		Port:     3306,
+		User:     "maxscale",
+		Password: "CIHblhmzv74eMYPjhUHO",
+	}
+	fmt.Println("in db.go:", Server)
+	Node := GaleraServer{
+		NodeName:    "fr0-ac-cmp-n01.cloud.airbus.corp",
+		WsrepStatus: "ON",
+		Dist:        55,
+		Status:      "Sync",
+		AvgQueue:    70,
+		Latency:     12,
+	}
+	fmt.Println("Galera Output Example", Node)
+	return Node, nil
 
 }

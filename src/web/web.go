@@ -11,29 +11,32 @@
 //     BasePath: /
 //     Version: 0.0.1
 //     License: MIT http://opensource.org/licenses/MIT
-//     Contact: Julien SENON <julien.senon@gmail.com
+//     Contact: Julien SENON <julien.senon@gmail.com>
 
 package web
 
 import (
 	"db"
-	"github.com/gorilla/mux"
-	"github.com/gorilla/schema"
+	"fmt"
 	"html/template"
 	"net/http"
 )
 
+// TO DO
+// Have list of servers, username and password used to connect
+var Server db.DBConfig
+
 // Present Information on Dedicated WebPortal
 
-// Func to display all server on table view
+// Func to display all server
 func Index(res http.ResponseWriter, req *http.Request) {
-	// var rs Server
 
-	// I have to loop on each cluster server
+	fmt.Println("in web.go:", Server)
 
-	rs, err := db.GetInfo(server)
+	rs, err := db.GetInfo()
+	fmt.Println("rs in web.go:", rs)
 	t, _ := template.ParseFiles("templates/index.html")
-
+	fmt.Println(t)
 	t.Execute(res, rs)
 	if err != nil {
 		return

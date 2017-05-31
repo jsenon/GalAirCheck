@@ -18,8 +18,7 @@ package main
 
 import (
 	"api"
-	"fmt"
-	"github.com/go-sql-driver/mysql"
+	// "fmt"
 	"github.com/gorilla/handlers"
 	"github.com/gorilla/mux"
 	"net/http"
