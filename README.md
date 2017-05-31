@@ -19,20 +19,22 @@ go build -o galaircheck
 
 ### Start
 
+Edit and rename config-node.json.example to config-node.json
+Replace value by your own
 
 ### Access
 
-Access through favorite web browser on http://YOURIP:YOURPORT ie http://127.0.0.1:9010
+Access through favorite web browser on http://YOURIP:YOURPORT ie http://127.0.0.1:9030
 
 
 ### API
 
-
+Auto Health Check API status available at /healthy/am-i-up
 
 ### ToDo
 
 - [ ] API
-- [ ] Web part to view details
+- [x] Web part to view details
 - [ ] API Doc
 - [ ] Build Docker App
 - [x] Add API monitoring
