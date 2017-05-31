@@ -49,5 +49,5 @@ func main() {
 	r.HandleFunc("/healthy/am-i-up", api.Statusamiup).Methods("GET")
 	r.HandleFunc("/healthy/about", api.Statusabout).Methods("GET")
 
-	http.ListenAndServe(":9010", handlers.CORS(originsOk, headersOk, methodsOk)(r))
+	http.ListenAndServe(":9030", handlers.CORS(originsOk, headersOk, methodsOk)(r))
 }
