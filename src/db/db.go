@@ -51,27 +51,51 @@ type DBConfig struct {
 	Password string
 }
 
+var Servers []DBConfig
+var Node []GaleraServer
+
 // Init connection to MongoDB
 func init() {
 
 }
 
-func GetInfo() (GaleraServer, error) {
-	Server := DBConfig{
-		Host:     "fr0-ac-cmp-n01.cloud.airbus.corp",
-		Port:     3306,
-		User:     "maxscale",
-		Password: "CIHblhmzv74eMYPjhUHO",
+func GetInfo() ([]GaleraServer, error) {
+
+	Servers = []DBConfig{
+		DBConfig{
+			Host:     "MyNode1",
+			Port:     3306,
+			User:     "maxscale",
+			Password: "toto",
+		},
+		DBConfig{
+			Host:     "MyNode2",
+			Port:     3306,
+			User:     "maxscale",
+			Password: "titi",
+		},
 	}
-	fmt.Println("in db.go:", Server)
-	Node := GaleraServer{
-		NodeName:    "fr0-ac-cmp-n01.cloud.airbus.corp",
-		WsrepStatus: "ON",
-		Dist:        55,
-		Status:      "Sync",
-		AvgQueue:    70,
-		Latency:     12,
+
+	fmt.Println("in db.go:", Servers)
+	Node = []GaleraServer{
+		GaleraServer{
+			NodeName:    "MyNode1",
+			WsrepStatus: "ON",
+			Dist:        55,
+			Status:      "Sync",
+			AvgQueue:    70,
+			Latency:     12,
+		},
+		GaleraServer{
+			NodeName:    "MyNode2",
+			WsrepStatus: "OFF",
+			Dist:        90,
+			Status:      "Sync",
+			AvgQueue:    50,
+			Latency:     13,
+		},
 	}
+
 	fmt.Println("Galera Output Example", Node)
 	return Node, nil
 

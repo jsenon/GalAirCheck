@@ -35,10 +35,25 @@ func Index(res http.ResponseWriter, req *http.Request) {
 
 	rs, err := db.GetInfo()
 	fmt.Println("rs in web.go:", rs)
+
 	t, _ := template.ParseFiles("templates/index.html")
 	fmt.Println(t)
 	t.Execute(res, rs)
 	if err != nil {
 		return
 	}
+}
+
+func Toto(res http.ResponseWriter, req *http.Request) {
+	t, _ := template.ParseFiles("templates/index.html")
+
+	t.Execute(res, req)
+
+}
+
+func Login(res http.ResponseWriter, req *http.Request) {
+	t, _ := template.ParseFiles("templates/login.html")
+
+	t.Execute(res, req)
+
 }

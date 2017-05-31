@@ -39,7 +39,7 @@
 					<a class="nav-link active" href="/index">Home</a>
 				</li>
 				<li class="nav-item">
-					<a class="nav-link"  href="/api" target="_blank">Api</a>
+					<a class="nav-link disabled"  href="#" target="_blank">Api</a>
 				</li>
 				<li class="nav-item">
 					<a class="nav-link" href="#">Contact</a>
@@ -52,47 +52,38 @@
 
 			<div class="col-md-6" style="text-align: left;" >
 				<h4>
-					Galera Identification
+					Galera HealthCheck
 				</h4>
 				<tr>
-					<!-- Node: {{.NodeName}}</br> -->
 				</tr>
 				</br>
 			</div>
 
 			<div class="col-md-10" style="text-align: left;" >
 				<h4>
-					Details
+					Details 
 				</h4>
 
 				<table style="width:100%">
 				<tr>
+					<th> NodeName </th>
 					<th> WSREP </th>
 					<th> Dist </th>
 					<th> Status </th>
 					<th> Avg </th>
 					<th> Latency </th>
 				</tr>
-				<!-- {range .Networking}} -->
 				<tr>
-				<!-- 	<td>
-						{{.WsrepStatus}}
-					</td>
-					<td>
-						{{.Dist}}
-					</td>
-					<td>
-						{{.Status}}
-					</td>
-					<td>
-						{{.AvgQueue}}
-					</td>
-					<td>
-						{{.Latency}}
-					</td> -->
+					{{range .}}
+					<th> {{.NodeName}} </th>
+					<th> {{.WsrepStatus}} </th>
+					<th> {{.Dist}} </th>
+					<th> {{.Status}} </th>
+					<th> {{.AvgQueue}} </th>
+					<th> {{.Latency}} </th>
 				</tr>
-<!-- 				{{end}}
- -->				</table>
+				{{end}}
+ 				</table>
 				</br>
 			</div>
 
