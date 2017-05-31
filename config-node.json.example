@@ -1,0 +1,14 @@
+[
+	{
+		"Host": "MyNode",
+		"Port": "MyPort",
+		"User": "MyUser",
+		"Password": "MyPassword"
+	},
+	{
+		"Host": "MyNode2",
+		"Port": "MyPort",
+		"User": "MyUser",
+		"Password": "MyPassword"
+	}
+]
