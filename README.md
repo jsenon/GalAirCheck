@@ -22,6 +22,13 @@ go build -o galaircheck
 Edit and rename config-node.json.example to config-node.json
 Replace value by your own
 
+```sh
+"Host": "MyNode",
+"Port": "MyPort",
+"User": "MyUser",
+"Password": "MyPassword"
+```
+
 ### Access
 
 Access through favorite web browser on http://YOURIP:YOURPORT ie http://127.0.0.1:9030
