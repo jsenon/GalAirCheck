@@ -17,7 +17,6 @@ package web
 
 import (
 	"db"
-	"fmt"
 	"html/template"
 	"net/http"
 )
@@ -31,13 +30,9 @@ var Server db.DBConfig
 // Func to display all server
 func Index(res http.ResponseWriter, req *http.Request) {
 
-	fmt.Println("in web.go:", Server)
-
 	rs, err := db.GetInfo()
-	fmt.Println("rs in web.go:", rs)
 
 	t, _ := template.ParseFiles("templates/index.html")
-	fmt.Println(t)
 	t.Execute(res, rs)
 	if err != nil {
 		return

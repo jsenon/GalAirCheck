@@ -68,26 +68,35 @@
 				<tr>
 					<th> NodeName </th>
 					<th> WSREP </th>
+					<th> WSREConnected </th>
 					<th> Dist </th>
 					<th> Status </th>
 					<th> Avg </th>
 					<th> Latency </th>
+					<th> Control Paused </th>
+					<th> Send Queue Average
 				</tr>
 				<tr>
 					{{range .}}
 					<th> {{.NodeName}} </th>
 					<th> {{.WsrepStatus}} </th>
+					<th> {{.WsrepConnected}} </th>
 					<th> {{.Dist}} </th>
 					<th> {{.Status}} </th>
 					<th> {{.AvgQueue}} </th>
 					<th> {{.Latency}} </th>
+					<th> {{.ControlPaused}} </th>
+					<th> {{.SendAvgQueue}} </th>
 				</tr>
 				{{end}}
  				</table>
 				</br>
 			</div>
 
-			
+			<div class="col-md-10" style="text-align: left;">
+				Information available at http://galeracluster.com/documentation-webpages/monitoringthecluster.html
+			</div>
+
 			</br>
 			<footer class="footer">
 	      		<div class="container">

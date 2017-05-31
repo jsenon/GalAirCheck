@@ -16,8 +16,9 @@
 package db
 
 import (
+	"database/sql"
 	"fmt"
-	// "github.com/go-sql-driver/mysql"
+	_ "github.com/go-sql-driver/mysql"
 	// "log"
 )
 
@@ -34,69 +35,110 @@ type GaleraServer struct {
 	NodeName string `json:"NodeName"`
 	// Server WSREP
 	WsrepStatus string `json:"WsrepStatus"`
+	// Server WSREP Connected
+	WsrepConnected string `json:"WsrepConnected"`
 	// Server Dist
-	Dist float64 `json:"Dist"`
+	Dist string `json:"Dist"`
 	// Server Status
 	Status string `json:"Status"`
 	// Server Avg Message Queue
-	AvgQueue float64 `json:"AvgQueue"`
+	AvgQueue string `json:"AvgQueue"`
 	// Server Latency
-	Latency float64 `json:"Latency"`
+	Latency string `json:"Latency"`
+	// Control Paused
+	ControlPaused string `json:"ControlPaused"`
+	// Send Queue Average
+	SendAvgQueue string `json:"SendAvgQueue"`
 }
 
 type DBConfig struct {
 	Host     string
 	User     string
-	Port     int
+	Port     string
 	Password string
 }
 
 var Servers []DBConfig
 var Node []GaleraServer
 
-// Init connection to MongoDB
-func init() {
+// Init connection to Galera
+// func init() {
+// 	// sql.Open don't open connection
+// 	db, err := sql.Open("mysql", "maxscale:CIHblhmzv74eMYPjhUHO@tcp(fr0-ac-cmp-n01.cloud.airbus.corp:3306)/")
+// 	if err != nil {
+// 		fmt.Println("Failed to connect to database: %v", err)
+// 	}
+// 	err = db.Ping()
+// 	if err != nil {
+// 		panic(err.Error()) // proper error handling instead of panic in your app
+// 	}
+// 	var version string
+// 	// QueryRow will open connection
+// 	db.QueryRow("SELECT VERSION()").Scan(&version)
+// 	fmt.Println("Connected to:", version)
+// }
+
+func GetInfo() ([]GaleraServer, error) {
+	//Static Galera Node Server
+	Servers = []DBConfig{}
+
+	//Static Info for test Purpose
+	Node = []GaleraServer{}
+
+	//Retrieve info dynamically
+	for i := range Servers {
+		dsn := builddsn(Servers[i].Host, Servers[i].Port, Servers[i].User, Servers[i].Password, "")
+		fmt.Println(dsn)
+
+		db, err := sql.Open("mysql", dsn)
+		if err != nil {
+			fmt.Println("Failed to connect to database: %v", err)
+		}
+		err = db.Ping()
+		if err != nil {
+			panic(err.Error()) // proper error handling instead of panic in your app
+		}
+		var version string
+		db.QueryRow("SELECT VERSION()").Scan(&version)
+
+		var wsrep string
+		var unused string
+		db.QueryRow("SHOW GLOBAL STATUS LIKE 'wsrep_ready'").Scan(&unused, &wsrep)
+
+		var status string
+		db.QueryRow("SHOW GLOBAL STATUS LIKE 'wsrep_local_state_comment'").Scan(&unused, &status)
+
+		var wsrepconnected string
+		db.QueryRow("SHOW GLOBAL STATUS LIKE 'wsrep_connected'").Scan(&unused, &wsrepconnected)
+
+		var dist string
+		db.QueryRow("SHOW STATUS LIKE 'wsrep_cert_deps_distance'").Scan(&unused, &dist)
+
+		var avgqueue string
+		db.QueryRow("SHOW STATUS LIKE 'wsrep_local_recv_queue_avg'").Scan(&unused, &avgqueue)
+
+		var sendavgqueue string
+		db.QueryRow("SHOW STATUS LIKE 'wsrep_local_send_queue_avg'").Scan(&unused, &sendavgqueue)
+
+		var controlpaused string
+		db.QueryRow("SHOW STATUS LIKE 'wsrep_flow_control_paused'").Scan(&unused, &controlpaused)
+
+		Node = append(Node, GaleraServer{
+			NodeName:       Servers[i].Host,
+			WsrepStatus:    wsrep,
+			Status:         status,
+			WsrepConnected: wsrepconnected,
+			Dist:           dist,
+			AvgQueue:       avgqueue,
+			ControlPaused:  controlpaused,
+			SendAvgQueue:   sendavgqueue,
+		})
+
+	}
+	return Node, nil
 
 }
 
-func GetInfo() ([]GaleraServer, error) {
-
-	Servers = []DBConfig{
-		DBConfig{
-			Host:     "MyNode1",
-			Port:     3306,
-			User:     "maxscale",
-			Password: "toto",
-		},
-		DBConfig{
-			Host:     "MyNode2",
-			Port:     3306,
-			User:     "maxscale",
-			Password: "titi",
-		},
-	}
-
-	fmt.Println("in db.go:", Servers)
-	Node = []GaleraServer{
-		GaleraServer{
-			NodeName:    "MyNode1",
-			WsrepStatus: "ON",
-			Dist:        55,
-			Status:      "Sync",
-			AvgQueue:    70,
-			Latency:     12,
-		},
-		GaleraServer{
-			NodeName:    "MyNode2",
-			WsrepStatus: "OFF",
-			Dist:        90,
-			Status:      "Sync",
-			AvgQueue:    50,
-			Latency:     13,
-		},
-	}
-
-	fmt.Println("Galera Output Example", Node)
-	return Node, nil
-
+func builddsn(host, port, user, pass, name string) string {
+	return fmt.Sprintf("%v:%v@tcp(%v:%v)/%v", user, pass, host, port, name)
 }
