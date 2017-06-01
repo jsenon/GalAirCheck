@@ -39,15 +39,8 @@ func Index(res http.ResponseWriter, req *http.Request) {
 	}
 }
 
-func Toto(res http.ResponseWriter, req *http.Request) {
-	t, _ := template.ParseFiles("templates/index.html")
-
-	t.Execute(res, req)
-
-}
-
-func Login(res http.ResponseWriter, req *http.Request) {
-	t, _ := template.ParseFiles("templates/login.html")
+func Help(res http.ResponseWriter, req *http.Request) {
+	t, _ := template.ParseFiles("templates/help.html")
 
 	t.Execute(res, req)
 

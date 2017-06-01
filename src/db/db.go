@@ -103,7 +103,19 @@ func GetInfo() ([]GaleraServer, error) {
 		}
 		err = db.Ping()
 		if err != nil {
-			panic(err.Error()) // proper error handling instead of panic in your app
+			fmt.Println("Failed to ping to database: %v", err)
+			Node = append(Node, GaleraServer{
+				NodeName:       Servers[i].Host,
+				WsrepStatus:    "Error",
+				Status:         "Error",
+				WsrepConnected: "Error",
+				Dist:           "Error",
+				AvgQueue:       "Error",
+				ControlPaused:  "Error",
+				SendAvgQueue:   "Error",
+				ClusterID:      "Error",
+				ClusterSize:    "Error",
+			})
 		}
 		var version string
 		db.QueryRow("SELECT VERSION()").Scan(&version)
