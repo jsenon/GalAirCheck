@@ -38,6 +38,7 @@ func main() {
 
 	// Web Part
 	r.HandleFunc("/index", web.Index)
+	r.HandleFunc("/help", web.Help)
 
 	// Static dir
 	r.PathPrefix("/").Handler(http.StripPrefix("/", http.FileServer(http.Dir("templates/static/"))))
