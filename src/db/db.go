@@ -55,6 +55,8 @@ type GaleraServer struct {
 	ClusterID string `json:"ClusterID"`
 	// Cluster Size
 	ClusterSize string `json:"ClusterSize"`
+	// Cluster Status
+	ClusterStatus string `json:"ClusterStatus"`
 }
 
 type DBConfig struct {
@@ -115,6 +117,7 @@ func GetInfo() ([]GaleraServer, error) {
 				SendAvgQueue:   "Error",
 				ClusterID:      "Error",
 				ClusterSize:    "Error",
+				ClusterStatus:  "Error",
 			})
 		}
 		var version string
@@ -148,6 +151,9 @@ func GetInfo() ([]GaleraServer, error) {
 		var clustersize string
 		db.QueryRow("SHOW GLOBAL STATUS LIKE 'wsrep_cluster_size'").Scan(&unused, &clustersize)
 
+		var clusterstatus string
+		db.QueryRow("SHOW GLOBAL STATUS LIKE 'wsrep_cluster_status'").Scan(&unused, &clusterstatus)
+
 		Node = append(Node, GaleraServer{
 			NodeName:       Servers[i].Host,
 			WsrepStatus:    wsrep,
@@ -159,6 +165,7 @@ func GetInfo() ([]GaleraServer, error) {
 			SendAvgQueue:   sendavgqueue,
 			ClusterID:      clusterid,
 			ClusterSize:    clustersize,
+			ClusterStatus:  clusterstatus,
 		})
 
 	}
