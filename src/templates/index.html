@@ -61,7 +61,7 @@
 
 			<div class="col-md-10" style="text-align: left; font-size: 9px;" >
 				<h4>
-					Details Overview
+					Galera Overview
 				</h4>
 
 				<table style="width:100%">
@@ -69,12 +69,7 @@
 					<th> NodeName </th>
 					<th> WSREP </th>
 					<th> WSRECon</th>
-					<th> Dist </th>
 					<th> Status </th>
-					<th> Avg </th>
-					<th> CStatus </th>
-					<th> Control Pause </th>
-					<th> Send Q Average </th>
 					<th> Cluster ID </th>
 					<th> Cluster Size </th>
 				</tr>
@@ -83,14 +78,42 @@
 					<th> {{.NodeName}} </th>
 					<th> {{.WsrepStatus}} </th>
 					<th> {{.WsrepConnected}} </th>
-					<th> {{.Dist}} </th>
 					<th> {{.Status}} </th>
+					<th> {{.ClusterID}}</th>
+					<th> {{.ClusterSize}}</th>
+				</tr>
+				{{end}}
+ 				</table>
+				</br>
+			</div>
+
+			<div class="col-md-10" style="text-align: left; font-size: 9px;" >
+				<h4>
+					Galera Details 
+				</h4>
+
+				<table style="width:100%">
+				<tr>
+					<th> NodeName </th>
+					<th> Dist </th>
+					<th> Rec Q Avg </th>
+					<th> CStatus </th>
+					<th> Control Pause </th>
+					<th> Send Q Average </th>
+					<th> Cluster ID </th>
+					<th> Seq Num </th>
+
+				</tr>
+				<tr>
+					{{range .}}
+					<th> {{.NodeName}} </th>
+					<th> {{.Dist}} </th>
 					<th> {{.AvgQueue}} </th>
 					<th> {{.ClusterStatus}} </th>
 					<th> {{.ControlPaused}} </th>
 					<th> {{.SendAvgQueue}} </th>
 					<th> {{.ClusterID}}</th>
-					<th> {{.ClusterSize}}</th>
+					<th> {{.LastCommited}}</th>
 				</tr>
 				{{end}}
  				</table>
