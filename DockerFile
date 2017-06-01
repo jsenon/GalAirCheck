@@ -1,0 +1,19 @@
+# v1.0 without curl on Github
+# Build Image
+FROM ubuntu:latest
+
+ENV  GOPATH '/app/GalAirCheck'
+
+RUN apt-get update \
+&& apt-get -y upgrade \
+&& apt-get install -y golang
+
+# Workdir
+WORKDIR /app
+COPY GalAirCheck/ .
+
+WORKDIR /app/GalAirCheck/src
+
+EXPOSE 9030
+
+CMD go run GalAirCheck.go
