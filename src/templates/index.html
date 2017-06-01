@@ -61,7 +61,7 @@
 
 			<div class="col-md-10" style="text-align: left; font-size: 9px;" >
 				<h4>
-					Details 
+					Details Overview
 				</h4>
 
 				<table style="width:100%">
@@ -91,6 +91,26 @@
 					<th> {{.SendAvgQueue}} </th>
 					<th> {{.ClusterID}}</th>
 					<th> {{.ClusterSize}}</th>
+				</tr>
+				{{end}}
+ 				</table>
+				</br>
+			</div>
+
+			<div class="col-md-10" style="text-align: left; font-size: 9px;" >
+				<h4>
+					Galera Latency 
+				</h4>
+
+				<table style="width:100%">
+				<tr>
+					<th> NodeName </th>
+					<th> Latency </th>
+				</tr>
+				<tr>
+					{{range .}}
+					<th> {{.NodeName}} </th>
+					<th> {{.Latency}} </th>
 				</tr>
 				{{end}}
  				</table>

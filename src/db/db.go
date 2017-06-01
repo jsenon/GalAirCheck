@@ -118,6 +118,7 @@ func GetInfo() ([]GaleraServer, error) {
 				ClusterID:      "Error",
 				ClusterSize:    "Error",
 				ClusterStatus:  "Error",
+				Latency:        "Error",
 			})
 		}
 		var version string
@@ -154,6 +155,9 @@ func GetInfo() ([]GaleraServer, error) {
 		var clusterstatus string
 		db.QueryRow("SHOW GLOBAL STATUS LIKE 'wsrep_cluster_status'").Scan(&unused, &clusterstatus)
 
+		var latency string
+		db.QueryRow("SHOW STATUS LIKE 'wsrep_evs_repl_latency'").Scan(&unused, &latency)
+
 		Node = append(Node, GaleraServer{
 			NodeName:       Servers[i].Host,
 			WsrepStatus:    wsrep,
@@ -166,6 +170,7 @@ func GetInfo() ([]GaleraServer, error) {
 			ClusterID:      clusterid,
 			ClusterSize:    clustersize,
 			ClusterStatus:  clusterstatus,
+			Latency:        latency,
 		})
 
 	}
