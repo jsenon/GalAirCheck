@@ -59,6 +59,10 @@ type GaleraServer struct {
 	ClusterStatus string `json:"ClusterStatus"`
 	// Sequence Number
 	LastCommited string `json:"LastCommited"`
+	// Threads Connected
+	ThreadCon string `json:ThreadCon"`
+	// Queries
+	Queries string `json:Queries"`
 }
 
 type DBConfig struct {
@@ -122,6 +126,8 @@ func GetInfo() ([]GaleraServer, error) {
 				ClusterStatus:  "Error",
 				Latency:        "Error",
 				LastCommited:   "Error",
+				ThreadCon:      "Error",
+				Queries:        "Error",
 			})
 		}
 		var version string
@@ -164,6 +170,12 @@ func GetInfo() ([]GaleraServer, error) {
 		var lastcommitted string
 		db.QueryRow("SHOW STATUS LIKE 'wsrep_last_committed'").Scan(&unused, &lastcommitted)
 
+		var queries string
+		db.QueryRow("show status like 'Quer%'").Scan(&unused, &queries)
+
+		var threadcon string
+		db.QueryRow("show status like 'Threads_connected'").Scan(&unused, &threadcon)
+
 		Node = append(Node, GaleraServer{
 			NodeName:       Servers[i].Host,
 			WsrepStatus:    wsrep,
@@ -178,6 +190,8 @@ func GetInfo() ([]GaleraServer, error) {
 			ClusterStatus:  clusterstatus,
 			Latency:        latency,
 			LastCommited:   lastcommitted,
+			ThreadCon:      threadcon,
+			Queries:        queries,
 		})
 
 	}

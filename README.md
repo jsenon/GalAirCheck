@@ -47,6 +47,9 @@ Auto Health Check API status available at /healthy/am-i-up
 - [x] Add API monitoring
 - [x] Add Cluster ID
 - [x] Add Cluster Size
+- [ ] Thread connected SHOW FULL PROCESSLIST; show status like 'Threads_connected';
+- [ ] Queries show status like 'Quer%';
+
 
 
 

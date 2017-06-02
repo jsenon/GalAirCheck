@@ -140,6 +140,32 @@
 				</br>
 			</div>
 
+			<div class="col-md-10" style="text-align: left; font-size: 9px;" >
+				<h4>
+					Load 
+				</h4>
+
+				<table style="width:100%">
+				<tr>
+					<th> NodeName </th>
+					<th> Queries </th>
+					<th> Threads Con </th>
+
+				</tr>
+				<tr>
+					{{range .}}
+					<th> {{.NodeName}} </th>
+					<th> {{.Queries}} </th>
+					<th> {{.ThreadCon}} </th>
+
+				</tr>
+				{{end}}
+ 				</table>
+				</br>
+			</div>
+
+
+
 			<div class="col-md-10" style="text-align: left;">
 				Information available at <a href=http://galeracluster.com/documentation-webpages/monitoringthecluster.html>http://galeracluster.com/documentation-webpages/monitoringthecluster.html</a>
 			</div>
